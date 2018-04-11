@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    	 http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!-- xml配置方法（推荐还是java配置类的方法） -->
+
+    <!-- 假设配置类只配置CompactDisc，xml配置MediaPlayer -->
+
+    <!-- 构造方法注入 -->
+   <!-- <bean id="mediaPlayer" class="com.zyu.pojo.CDPlayer">
+        <constructor-arg name="compactDisc" ref="sgtPeppers"></constructor-arg>
+    </bean>-->
+
+    <!--
+        命名空间形式注入
+        c:compactDisc-ref   前缀：构造器参数名-ref
+        c:_0-ref    前缀：_构造器参数索引-ref   推荐
+     -->
+    <!--<bean id="mediaPlayer" class="com.zyu.pojo.CDPlayer" c:compactDisc-ref="sgtPeppers"></bean>-->
+    <bean id="mediaPlayer" class="com.zyu.pojo.CDPlayer" c:_0-ref="blankDisc"></bean>
+
+    <!-- 构造器的方式注入字面量 -->
+ <!--   <bean id="blankDisc" class="com.zyu.pojo.BlankDisc" c:_0="BlankDisc.标题" c:_1="BlankDisc.艺术家">
+        <constructor-arg name="tracks">
+            <list>
+                <value>lisa</value>
+                <value>张三</value>
+            </list>
+        </constructor-arg>
+    </bean>-->
+
+    <!-- 属性注入（命名空间形式） -->
+    <util:list id="trackList" >
+            <value>lisa</value>
+            <value>张三</value>
+    </util:list>
+    <bean id="blankDisc" class="com.zyu.pojo.BlankDisc" p:title="BlankDisc.标题" p:artist="BlankDisc.艺术家"
+          p:tracks-ref="trackList">
+    </bean>
+
+
+    <!-- xml导入配置类 -->
+    <!--<bean class="com.zyu.config.SpringConfig"></bean>-->
+</beans>
